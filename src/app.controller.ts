@@ -1,20 +1,21 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
-  Body,
   Put,
-  Delete,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Post as PostModel, User as UserModel } from '@prisma/client';
+import { Public } from './auth/auth.decorator';
 import { PostService } from './post.service';
-import { User as UserModel, Post as PostModel } from '@prisma/client';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly userService: UserService,
+    private readonly usersService: UsersService,
     private readonly postService: PostService,
   ) {}
 
@@ -62,15 +63,16 @@ export class AppController {
     });
   }
 
+  @Public()
   @Get('user')
   async getRegisterUSer(): Promise<UserModel[]> {
-    return this.userService.users({});
+    return this.usersService.users({});
   }
   @Post('user')
   async signupUser(
-    @Body() userData: { name?: string; email: string },
+    @Body() userData: { name?: string; email: string; password: string },
   ): Promise<UserModel> {
-    return this.userService.createUser(userData);
+    return this.usersService.createUser(userData);
   }
 
   @Put('publish/:id')
