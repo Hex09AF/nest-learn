@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { compareSync } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -12,16 +16,19 @@ export class AuthService {
 
   async signIn(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(email);
+    if (!user) {
+      throw new NotFoundException();
+    }
     const checkPassword = compareSync(pass, user.password);
     if (!checkPassword) {
       throw new UnauthorizedException();
     }
-    const { password, ...result } = user;
+    const { id, ...result } = user;
     // TODO: Generate a JWT and return it here
     // instead of the user object
 
     return {
-      access_token: await this.jwtService.signAsync({ email, password }),
+      access_token: await this.jwtService.signAsync({ email, id }),
     };
     return result;
   }
