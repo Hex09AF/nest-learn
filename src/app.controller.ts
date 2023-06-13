@@ -63,7 +63,6 @@ export class AppController {
     });
   }
 
-  @Public()
   @Get('user')
   async getRegisterUSer(): Promise<UserModel[]> {
     return this.usersService.users({});
