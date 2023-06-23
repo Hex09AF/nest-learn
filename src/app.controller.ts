@@ -8,7 +8,6 @@ import {
   Put,
 } from '@nestjs/common';
 import { Post as PostModel, User as UserModel } from '@prisma/client';
-import { Public } from './auth/auth.decorator';
 import { PostService } from './post.service';
 import { UsersService } from './users/users.service';
 

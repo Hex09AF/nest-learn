@@ -9,9 +9,16 @@ import { PostService } from './post.service';
 import { PrismaService } from './services/prisma/prisma.service';
 import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
+import { PhotosModule } from './photos/photos.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    PhotosModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+  ],
   controllers: [AuthController, AppController],
   providers: [
     {
