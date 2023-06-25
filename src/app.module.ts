@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module';
 import { UsersService } from './users/users.service';
 import { PhotosModule } from './photos/photos.module';
 import { ConfigModule } from '@nestjs/config';
+import { PhotosService } from './photos/photos.service';
 
 @Module({
   imports: [
